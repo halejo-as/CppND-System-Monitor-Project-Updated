@@ -1,11 +1,13 @@
+#include "ncurses_display.h"
+
 #include <curses.h>
+
 #include <chrono>
 #include <string>
 #include <thread>
 #include <vector>
 
 #include "format.h"
-#include "ncurses_display.h"
 #include "system.h"
 
 using std::string;
@@ -76,6 +78,7 @@ void NCursesDisplay::DisplayProcesses(std::vector<Process>& processes,
     float cpu = processes[i].CpuUtilization() * 100;
     mvwprintw(window, row, cpu_column, to_string(cpu).substr(0, 4).c_str());
     mvwprintw(window, row, ram_column, processes[i].Ram().c_str());
+    mvwprintw(window, row, time_column, " ");  // to clean
     mvwprintw(window, row, time_column,
               Format::ElapsedTime(processes[i].UpTime()).c_str());
     mvwprintw(window, row, command_column,
